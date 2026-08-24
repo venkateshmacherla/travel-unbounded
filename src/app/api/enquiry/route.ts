@@ -23,20 +23,23 @@ export async function POST(request: Request) {
     await connectToDatabase();
 
     const enquiry = await Enquiry.create({
-      name: body.name.trim(),
-      email: body.email.trim(),
-      phone: body.phone.trim(),
-      destination: body.destination?.trim(),
-      travelDate: body.travelDate ? new Date(body.travelDate) : undefined,
-      travelers: body.travelers ?? 1,
-      message: body.message?.trim(),
+      fullName: body.fullName.trim(),
+      countryCode: body.countryCode.trim(),
+      contactNumber: body.contactNumber.trim(),
+      email: body.email.trim().toLowerCase(),
+      travelDate: new Date(`${body.travelDate}T00:00:00`),
+      people: body.people,
+      hotelCategory: body.hotelCategory,
+      children: body.children ?? 0,
     });
 
     return NextResponse.json(
       {
         success: true,
-        message: "Enquiry received",
-        data: { id: enquiry._id },
+        message: "Enquiry received successfully",
+        data: {
+          id: enquiry._id,
+        },
       },
       { status: 201 }
     );
