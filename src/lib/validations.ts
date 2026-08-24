@@ -49,3 +49,69 @@ export function validateEnquiryInput(
     errors,
   };
 }
+
+export interface DestinationInput {
+  name: string;
+  slug: string;
+  country: string;
+  city: string;
+  description: string;
+  image: string;
+  bestTimeToVisit: string;
+  averageBudget: number;
+  tags?: string[];
+}
+
+export function validateDestinationInput(
+  data: Partial<DestinationInput>
+): ValidationResult {
+  const errors: Record<string, string> = {};
+
+  if (!data.name?.trim()) errors.name = "Name is required";
+  if (!data.slug?.trim()) errors.slug = "Slug is required";
+  else if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(data.slug.trim())) {
+    errors.slug = "Slug can only contain lowercase letters, numbers and hyphens";
+  }
+
+  if (!data.country?.trim()) errors.country = "Country is required";
+  if (!data.city?.trim()) errors.city = "City is required";
+  if (!data.description?.trim()) errors.description = "Description is required";
+  if (!data.image?.trim()) errors.image = "Image is required";
+  if (!data.bestTimeToVisit?.trim()) errors.bestTimeToVisit = "Best time to visit is required";
+
+  if (data.averageBudget === undefined || data.averageBudget === null) {
+    errors.averageBudget = "Average budget is required";
+  } else if (typeof data.averageBudget !== "number" || data.averageBudget < 0) {
+    errors.averageBudget = "Average budget must be a positive number";
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+export function validateDestinationUpdate(
+  data: Partial<DestinationInput>
+): ValidationResult {
+  const errors: Record<string, string> = {};
+
+  if (
+    data.slug !== undefined &&
+    !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(data.slug.trim())
+  ) {
+    errors.slug = "Slug can only contain lowercase letters, numbers and hyphens";
+  }
+
+  if (
+    data.averageBudget !== undefined &&
+    (typeof data.averageBudget !== "number" || data.averageBudget < 0)
+  ) {
+    errors.averageBudget = "Average budget must be a positive number";
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
