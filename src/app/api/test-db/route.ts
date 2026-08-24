@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 
 export async function GET() {
   try {
-    const db = await connectToDatabase();
+    const db = await getDb();
 
     await db.command({ ping: 1 });
 
     return NextResponse.json({
       success: true,
       message: "MongoDB connected successfully",
+      database: db.databaseName,
     });
   } catch (error) {
     console.error("MongoDB connection error:", error);
