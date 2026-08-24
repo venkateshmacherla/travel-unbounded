@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
@@ -13,7 +14,7 @@ const navItems = [
   },
   {
     label: "Destinations",
-    href: "/#destinations",
+    href: "/destinations",
   },
   {
     label: "About",
@@ -27,9 +28,18 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const closeMenu = () => {
     setIsOpen(false);
+  };
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   return (
@@ -59,15 +69,28 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-(--foreground) transition-colors hover:text-(--accent)"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative py-2 text-sm font-medium transition-colors ${
+                    active
+                      ? "text-(--accent)"
+                      : "text-(--foreground) hover:text-(--accent)"
+                  }`}
+                >
+                  {item.label}
+
+                  {active && (
+                    <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-(--accent)" />
+                  )}
+                </Link>
+              );
+            })}
 
             <Button href="/contact" variant="secondary">
               Plan Your Trip
@@ -90,16 +113,25 @@ export default function Navbar() {
         {isOpen && (
           <div className="border-t border-(--border) py-5 md:hidden">
             <div className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMenu}
-                  className="rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-white hover:text-(--accent)"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const active = isActive(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={closeMenu}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                      active
+                        ? "bg-(--primary)/10 text-(--accent)"
+                        : "text-(--foreground) hover:bg-white hover:text-(--accent)"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
 
               <Button
                 href="/contact"
