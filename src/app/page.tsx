@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import DestinationSection from "@/components/home/DestinationSection";
 import { getDestinationsByCategory } from "@/data/destinations";
+
+export const metadata: Metadata = {
+  title: "Explore Destinations | Travel & Tours",
+  description:
+    "Discover beautiful destinations across India and around the world. Plan your next unforgettable journey with us.",
+};
 
 export default function Home() {
   const indiaDestinations = getDestinationsByCategory("india");
