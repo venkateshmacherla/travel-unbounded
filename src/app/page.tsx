@@ -4,9 +4,9 @@ import DestinationSection from "@/components/home/DestinationSection";
 import { getDestinationsByCategory } from "@/data/destinations";
 
 export const metadata: Metadata = {
-  title: "Explore Destinations | Travel & Tours",
+  title: "Travel Unbounded | Experiential Travel Experts",
   description:
-    "Discover beautiful destinations across India and around the world. Plan your next unforgettable journey with us.",
+    "Discover personalised experiential journeys across India and around the world with Travel Unbounded.",
 };
 
 export default function Home() {
