@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
@@ -53,6 +54,80 @@ async function getDestination(
   }
 }
 
+// Dynamic SEO metadata
+export async function generateMetadata({
+  params,
+}: DestinationPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const destination = await getDestination(slug);
+
+  if (!destination) {
+    return {
+      title: "Destination Not Found | Travel Unbounded",
+      description:
+        "The destination you are looking for could not be found.",
+    };
+  }
+
+  const title = `${destination.name}, ${destination.country} | Travel Unbounded`;
+
+  const description =
+    destination.description ||
+    `Explore ${destination.name}, ${destination.country} with Travel Unbounded. Discover the best time to visit, travel highlights, and estimated budget.`;
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const canonicalUrl = `${baseUrl}/destinations/${destination.slug}`;
+
+  return {
+    title,
+    description,
+
+    keywords: [
+      destination.name,
+      destination.country,
+      `${destination.name} travel`,
+      `${destination.name} tourism`,
+      `${destination.name} travel packages`,
+      `${destination.name} holidays`,
+      "Travel Unbounded",
+    ],
+
+    alternates: {
+      canonical: canonicalUrl,
+    },
+
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Travel Unbounded",
+      type: "website",
+      images: destination.image
+        ? [
+            {
+              url: destination.image,
+              width: 800,
+              height: 600,
+              alt: `${destination.name} - Travel Unbounded`,
+            },
+          ]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: destination.image
+        ? [destination.image]
+        : [],
+    },
+  };
+}
+
 export default async function DestinationPage({
   params,
 }: DestinationPageProps) {
@@ -66,7 +141,7 @@ export default async function DestinationPage({
 
   return (
     <main>
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="border-b border-(--border) bg-(--surface)">
         <Container>
           <div className="py-16 md:py-24">
@@ -94,7 +169,23 @@ export default async function DestinationPage({
         </Container>
       </section>
 
-      {/* Destination Details */}
+      {/* Destination image */}
+      {destination.image && (
+        <section className="bg-(--background) py-8 md:py-12">
+          <Container>
+            <div className="overflow-hidden rounded-3xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={destination.image}
+                alt={`${destination.name}, ${destination.country}`}
+                className="h-72 w-full object-cover md:h-105 lg:h-125"
+              />
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Destination details */}
       <section className="py-16 md:py-20">
         <Container>
           <div className="grid gap-12 md:grid-cols-[1.2fr_0.8fr]">
@@ -112,7 +203,7 @@ export default async function DestinationPage({
                 {destination.description}
               </p>
 
-              {/* Best Time */}
+              {/* Best time */}
               <div className="mt-8">
                 <h3 className="text-lg font-bold text-(--primary)">
                   Best Time to Visit
@@ -130,7 +221,10 @@ export default async function DestinationPage({
                 </h3>
 
                 <p className="mt-2 text-(--muted)">
-                  ₹{destination.averageBudget.toLocaleString("en-IN")}
+                  ₹
+                  {destination.averageBudget.toLocaleString(
+                    "en-IN"
+                  )}
                 </p>
               </div>
             </div>
@@ -141,7 +235,8 @@ export default async function DestinationPage({
                 Highlights
               </h3>
 
-              {destination.tags && destination.tags.length > 0 ? (
+              {destination.tags &&
+              destination.tags.length > 0 ? (
                 <div className="mt-5 flex flex-wrap gap-3">
                   {destination.tags.map((tag) => (
                     <span
