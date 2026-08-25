@@ -16,6 +16,8 @@ export async function POST() {
   try {
     await connectToDatabase();
 
+    await Destination.deleteMany({});
+
     const results = [];
 
     for (const d of staticDestinations) {
