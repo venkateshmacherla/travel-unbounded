@@ -8,7 +8,7 @@ const quickLinks = [
   },
   {
     label: "Destinations",
-    href: "/#destinations",
+    href: "/destinations",
   },
   {
     label: "About",
