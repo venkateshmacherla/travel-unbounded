@@ -239,5 +239,5 @@ The project demonstrates:
 
 **Venkatesh Macharla**  
 Full Stack Developer  
-📧 macherlavenkatesh5@gmail.com
+📧 macherlavenkatesh5@gmail.com |
 [LinkedIn](https://www.linkedin.com/in/venkatesh-macharla-2699b7227/)
