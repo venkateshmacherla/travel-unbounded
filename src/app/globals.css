@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+html,
+body {
+  cursor: default;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
 :root {
   --background: #faf8f3;
   --foreground: #18231d;
