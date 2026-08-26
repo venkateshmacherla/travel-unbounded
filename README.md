@@ -101,21 +101,21 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Create a `.env.local` file with the following variables:
 
-| Variable | Required | Description |
-|---|---|---|
-| `MONGODB_URI` | Yes | MongoDB Atlas or local MongoDB connection string |
-| `MONGODB_DB_NAME` | No | Database name. Defaults to `travel-unbounded` |
+| Variable          | Required | Description                                      |
+| ----------------- | -------- | ------------------------------------------------ |
+| `MONGODB_URI`     | Yes      | MongoDB Atlas or local MongoDB connection string |
+| `MONGODB_DB_NAME` | No       | Database name. Defaults to `travel-unbounded`    |
 
 The `.env.example` file contains the required environment variable template.
 
 ## Application Routes
 
-| Page | Route |
-|---|---|
-| Home | `/` |
-| About | `/about` |
-| Contact | `/contact` |
-| Destinations | `/destinations` |
+| Page                | Route                  |
+| ------------------- | ---------------------- |
+| Home                | `/`                    |
+| About               | `/about`               |
+| Contact             | `/contact`             |
+| Destinations        | `/destinations`        |
 | Destination Details | `/destinations/[slug]` |
 
 ## API Routes
@@ -236,6 +236,7 @@ The project demonstrates:
 - Production deployment configuration
 
 ## Author
-Venkatesh Macharla
-macherlavenkatesh5@gmail.com
-Full Stack Developer
+
+**Venkatesh Macharla**  
+Full Stack Developer  
+📧 macherlavenkatesh5@gmail.com
