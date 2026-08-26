@@ -234,3 +234,8 @@ The project demonstrates:
 - SEO metadata
 - Development-only database seeding
 - Production deployment configuration
+
+## Author
+Venkatesh Macharla
+macherlavenkatesh5@gmail.com
+Full Stack Developer
